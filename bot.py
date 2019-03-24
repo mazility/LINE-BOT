@@ -64,8 +64,7 @@ def processRequest(req):
         speech = f'กรุณาพิม: (ชื่อจริง, นามสกุล, อายุ)'
 
     else:
-
-        speech = "ผมไม่เข้าใจ คุณต้องการอะไร"
+        speech = f'ไม่พบคำสั่ง'
 
     res = makeWebhookResult(speech)
 
