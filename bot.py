@@ -36,8 +36,6 @@ def processRequest(req):
 
     if intent == 'ถามหนังน่าดู':
 
-        speech = "ได้เลย จัดให้!"
-
         doc_ref = db.collection(u'movies').document(u'wFcZmjthSbXhyOGOGgJY')
         doc = doc_ref.get().to_dict()
         print(doc)
@@ -57,7 +55,7 @@ def processRequest(req):
 def makeWebhookResult(speech):
 
     return {
-  "fulfillmentText": speech
+        "fulfillmentText": speech
     }
 
 if __name__ == '__main__':
