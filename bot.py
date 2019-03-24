@@ -60,7 +60,7 @@ def processRequest(req):
         rate = doc['rate']
         rel_date = doc['release_date']
         genre = doc['genre']
-        speech = f'ตอนนี้มีเรื่อง: {title}\n เปิดตัวซีรี่ส์ปี: {rel_date}\n ประเภท: {genre}\n เรทติ้ง: {rate}'
+        speech = f'ตอนนี้มีเรื่อง: {title}\nเปิดตัวซีรี่ส์ปี: {rel_date}\nประเภท: {genre}\nเรทติ้ง: {rate}'
 
     elif intent == 'เพิ่มรายชื่อ':
         speech = f'กรุณาพิม: (ชื่อจริง, นามสกุล, อายุ)'
