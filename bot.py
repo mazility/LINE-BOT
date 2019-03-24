@@ -59,8 +59,8 @@ def makeWebhookResult(speech):
     }
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
+    port = int(os.environ.get("PORT", 5000))
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0', threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=port)
