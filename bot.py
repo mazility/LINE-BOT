@@ -52,19 +52,18 @@ def processRequest(req):
 
     if intent == 'ถามหนังน่าดู':
 
-        doc_ref = db.collection(u'movies').document(u'wFcZmjthSbXhyOGOGgJY')
+        doc_ref = db.collection(u'series').document(u'DxRxK9Wf0jFEE2J0C5uE')
         doc = doc_ref.get().to_dict()
         print(doc)
 
-        movie_name = doc['movie_name']
+        title = doc['title']
+        rate = doc['rate']
         rel_date = doc['release_date']
-        speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
+        genre = doc['genre']
+        speech = f'ตอนนี้มีเรื่อง: {title}\n เปิดตัวซีรี่ส์ปี: {rel_date}\n ประเภท: {genre}\n เรทติ้ง: {rate}'
 
     elif intent == 'เพิ่มรายชื่อ':
         speech = f'กรุณาพิม: (ชื่อจริง, นามสกุล, อายุ)'
-
-    elif intent != 'เพิ่มรายชื่อ' and intent != 'ถามหนังน่าดู':
-        speech = "ไม่พบคำสั่ง"
 
     res = makeWebhookResult(speech)
 
