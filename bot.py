@@ -9,9 +9,9 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# cred = credentials.Certificate("mr-spock-25e2d-firebase-adminsdk-npk8u-34c04c79cf.json")
-# firebase_admin.initialize_app(cred)
-# db = firestore.client()
+cred = credentials.Certificate("line-bot-af799-firebase-adminsdk-pt28c-37f5bffdaf.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 # Flask app should start in global layout
 app = Flask(__name__)
@@ -41,11 +41,17 @@ def processRequest(req):
 
     if intent == 'ถามหนังน่าดู':
 
-        speech = "Hello~"
+        doc_ref = db.collection(u'movies').document(u'wFcZmjthSbXhyOGOGgJY')
+        doc = doc_ref.get().to_dict()
+        print(doc)
+
+        movie_name = doc['movie_name']
+        rel_date = doc['release_date']
+        speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
 
     else:
 
-        speech = "I don't understand"
+        speech = "ผมไม่เข้าใจ คุณต้องการอะไร"
 
     res = makeWebhookResult(speech)
 
