@@ -57,7 +57,7 @@ def processRequest(req):
         #doc = doc_ref.get().to_dict()
         #print(doc)
         for doc in doc_ref:
-            speech = (u'{} => {}'.format(doc.id, doc.to_dict()))
+            speech = f'(u'{} => {}'.format(doc.id, doc.to_dict()))'
         #movie_name = doc['movie_name']
         #rel_date = doc['release_date']
         #speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
