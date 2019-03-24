@@ -49,6 +49,9 @@ def processRequest(req):
         rel_date = doc['release_date']
         speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
 
+    elif intent == 'เพิ่มรายชื่อ':
+        print('ชื่อจริง\n', 'นามสกุล\n', 'อาย\nุ')
+
     else:
 
         speech = "ผมไม่เข้าใจ คุณต้องการอะไร"
