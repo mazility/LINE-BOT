@@ -53,12 +53,13 @@ def processRequest(req):
     if intent == 'ถามหนังน่าดู':
 
         doc_ref = db.collection(u'movies').get()
-        doc = doc_ref.get().to_dict()
-        print(doc)
 
         movie_name = doc['movie_name']
         rel_date = doc['release_date']
         speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
+
+        for doc in docs:
+            print(u'{}'.format(doc_ref.get().to_dict()))
 
     elif intent == 'เพิ่มรายชื่อ':
         speech = f'กรุณาพิม: (ชื่อจริง, นามสกุล, อายุ)'
