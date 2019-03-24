@@ -50,8 +50,8 @@ def processRequest(req):
         for x in range(1):
             num = random.randint(1,2)
 
-        movie_name = doc['movie_name'+ num]
-        rel_date = doc['release_date'+ num]
+        movie_name = doc['movie_name'+ (str)num]
+        rel_date = doc['release_date'+ (str)num]
         speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
 
     elif intent == 'เพิ่มรายชื่อ':
