@@ -39,7 +39,7 @@ def processRequest(req):
     # Accessing the fields on the POST request boduy of API.ai invocation of the webhook
     intent = req_dict["queryResult"]["intent"]["displayName"]
 
-    if intent == 'Hi':
+    if intent == 'ถามหนังน่าดู':
 
         speech = "Hello~"
 
