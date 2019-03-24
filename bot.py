@@ -1,5 +1,6 @@
 import json
 import os
+import random
 
 from flask import Flask
 from flask import request
@@ -41,16 +42,20 @@ def processRequest(req):
 
     if intent == 'ถามหนังน่าดู':
 
-        doc_ref = db.collection(u'movies')
+        doc_ref = db.collection(u'movies').document(u'wFcZmjthSbXhyOGOGgJY')
         doc = doc_ref.get().to_dict()
         print(doc)
 
-        movie_name = doc['movie_name']
-        rel_date = doc['release_date']
+        num = 0
+        for x in range(1):
+            num = random.randint(1,2)
+
+        movie_name = doc['movie_name'+ num]
+        rel_date = doc['release_date'+ num]
         speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
 
     elif intent == 'เพิ่มรายชื่อ':
-        print('ชื่อจริง\n', 'นามสกุล\n', 'อาย\nุ')
+        speech = f'ชื่อจริง, นามสกุล, อายุ'
 
     else:
 
