@@ -1,41 +1,66 @@
-from flask import Flask, request, abort
-from linebot import (LineBotApi, WebhookHandler)
-from linebot.exceptions import (InvalidSignatureError)
-from linebot.models import (MessageEvent, TextMessage, TextSendMessage,)
+import json
+import os
 
+from flask import Flask
+from flask import request
+from flask import make_response
+
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+cred = credentials.Certificate("line-bot-af799-firebase-adminsdk-pt28c-6257eb703d.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+# Flask app should start in global layout
 app = Flask(__name__)
 
-line_bot_api = LineBotApi('SY3Zi2N44O/ebyElL/L1a3/j6h425Q0ta/a1oFItkpCBQ3oadw0IAp41DLuOE+i90lX0g3oq0ys+l2L4HDneosZJ7Ua5g4BIG/mJd/U9+pgmoM4wsItTMfb5aqYDGeQWZItkiuOCJeM7vDolhq4FIgdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('a3bc2b99d25742a9810396205c3ba4c6')
-
-@app.route("/")
-def hello():
-    return "Hello World!"
-
-@app.route("/webhook", methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
 
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    req = request.get_json(silent=True, force=True)
+    res = processRequest(req)
+    res = json.dumps(res, indent=4)
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
 
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+def processRequest(req):
 
-    return 'OK'
+    # Parsing the POST request body into a dictionary for easy access.
+    req_dict = json.loads(request.data)
 
+    # Accessing the fields on the POST request boduy of API.ai invocation of the webhook
+    intent = req_dict["queryResult"]["intent"]["displayName"]
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    if intent == 'ถามหนังน่าดู':
 
+        doc_ref = db.collection(u'movies').document(u'gl8urGh8WBrJNX5fS30M')
+        doc = doc_ref.get().to_dict()
+        print(doc)
 
-if __name__ == "__main__":
-    app.run()
+        movie_name = doc['movie_name']
+        rel_date = doc['release_date']
+        speech = f'ตอนนี้มีเรื่อง {movie_name} เข้าโรงวันที่ {rel_date}'
+
+    else:
+
+        speech = "ผมไม่เข้าใจ คุณต้องการอะไร"
+
+    res = makeWebhookResult(speech)
+
+    return res
+
+def makeWebhookResult(speech):
+
+    return {
+  "fulfillmentText": speech
+    }
+
+if __name__ == '__main__':
+    port = int(os.getenv('PORT', 5000))
+
+    print("Starting app on port %d" % port)
+
+    app.run(debug=False, port=port, host='0.0.0.0', threaded=True)
