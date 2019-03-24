@@ -50,7 +50,7 @@ def processRequest(req):
     # Accessing the fields on the POST request boduy of API.ai invocation of the webhook
     intent = req_dict["queryResult"]["intent"]["displayName"]
 
-    if intent == 'ถามหนังน่าดู':
+    if intent == 'ซีรี่น่าดู':
 
         doc_ref = db.collection(u'series').document(u'DxRxK9Wf0jFEE2J0C5uE')
         doc = doc_ref.get().to_dict()
