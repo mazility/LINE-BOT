@@ -41,7 +41,7 @@ def processRequest(req):
 
     if intent == 'ถามหนังน่าดู':
 
-        doc_ref = db.collection(u'movies').document(u'wFcZmjthSbXhyOGOGgJY')
+        doc_ref = db.collection(u'movies')
         doc = doc_ref.get().to_dict()
         print(doc)
 
