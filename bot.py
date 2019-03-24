@@ -63,7 +63,7 @@ def processRequest(req):
     elif intent == 'เพิ่มรายชื่อ':
         speech = f'กรุณาพิม: (ชื่อจริง, นามสกุล, อายุ)'
 
-    elif intent != 'เพิ่มรายชื่อ' and intent != 'ถามหนังน่าดู'
+    elif intent != 'เพิ่มรายชื่อ' && intent != 'ถามหนังน่าดู':
         speech = "ไม่พบคำสั่ง"
 
     res = makeWebhookResult(speech)
